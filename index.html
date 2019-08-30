@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Shopping List App</title>
+        <link rel="stylesheet" href="main.css">
+    </head>
+    <body>
+   
+		
+		<div class="shopping-list2">
+		
+		<span v-bind:title="message">
+			Hover your mouse over me for a few seconds
+			to see my dynamically bound title!
+		</span>
+		
+		
+		
+		<div>
+		 <h1>{{ header ? header.toLocaleUpperCase() : 'Welcome'.toLocaleUpperCase() }}</h1>
+		 
+			 <button v-if="state === 'default'" @click="changeState('edit')">Add Item</button>
+			 <button v-else @click="changeState('default')">Cancel</button>
+		 
+		</div>
+		
+		 <div v-if="state === 'edit'">
+				<input v-model="newItem" placeholder="Add new item" @keyup.enter="saveItem">
+				<p>{{newItem}}</p>
+				<p>{{newItem.length}}</p>
+				<!--button v-on:click="items.push(newItem)" v-bind:disabled="newItem.length === 0">Add</button-->
+				<button v-on:click="saveItem" v-bind:disabled="newItem.length === 0">Add</button>
+				
+			</div>
+			
+			<a v-bind:href="newItem" target="_blank">Dynamic link</a>
+			
+			
+            <!--ol>
+				
+				<li  v-for="item in items" :class="{strikeout: item.purchased}" @click="togglePurchased(item)">{{item.label.toLocaleUpperCase()}}, {{item.purchased.toString().toLocaleUpperCase()}} , Length = {{item.len}}</li>
+			</ol-->	
+			
+			<table>
+				
+				<tr v-for="item in items">
+				
+					<td style="display: list-item"></td>
+					<td>{{item.label.toLocaleUpperCase()}}</td>
+					<td>{{item.purchased.toString().toLocaleUpperCase()}}</td>
+					<td>{{item.len}}</td>
+				
+				</tr>
+				
+			
+			</table>
+			
+			<p>Total = {{ items.length }}</p>
+			
+			
+			<p v-if="items.length === 0">There are no items</p>
+			
+			<p v-text="header"><p>
+			
+			<button>{{butname}}</button>
+			<input type="text" v-model="newname">
+			<button v-on:click="change">Change</button>
+			
+        </div>
+		
+        <script src="https://unpkg.com/vue"></script>
+        <script>
+            
+			
+			var shoppingList2 = new Vue({
+                el: '.shopping-list2',
+                data: {
+					message: 'You loaded this page on ' + new Date().toLocaleString(),
+					newItem: '',
+					state: 'default',
+					header: '',
+					serialNo: '0',
+					butname: 'Name 1',
+					newname: '',
+					items: [
+						{
+							label: 'aaaaa',
+							purchased: false,
+							len: '5',
+							
+						},
+						{
+							label: 'bbbbbb',
+							purchased: true,
+							len: '6',
+							
+						},
+						{
+							label: 'cccccc',
+							purchased: false,
+							len: '6',
+							
+						},
+					]
+					
+                },
+				methods: {
+					
+						saveItem: function() {
+							this.items.push({
+							
+							label: this.newItem,
+							purchased: false,
+							len: this.newItem.length,
+							
+							},);
+							this.newItem = '';
+							//this.serialNo += 1;
+						},
+						changeState: function(newState) {
+							this.state = newState;
+							this.newItem = '';
+						},
+						togglePurchased: function(item) {
+							item.purchased = !item.purchased;
+						},
+						change: function() {
+							this.butname = this.newname;
+						}
+					}
+            })
+			shoppingList2.items.push({label:'ddddd',purchased:false,len:'5'});
+			
+			
+        </script>
+    </body>
+</html> 
